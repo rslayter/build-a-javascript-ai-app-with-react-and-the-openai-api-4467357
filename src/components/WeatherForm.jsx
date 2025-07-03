@@ -13,20 +13,18 @@ function WeatherForm({ onSubmit }) {
   return (
     <form className="locationform" onSubmit={handleSubmit}>
       <div className="locationform__elements">
-        <label htmlFor="location">Enter location:</label>
+        <label htmlFor="location">Ask a weather-related question or enter a location</label>
         <input
           id="location"
           type="text"
           value={inputLocation}
           onChange={(e) => setInputLocation(e.target.value)}
-          placeholder="City,state code (if USA),country code"
+          placeholder="Should I wear a coat in Oskaloosa, IA?"
         />
         <input type="submit" value="Submit" />
       </div>
       <p className="instructions">
-        For USA, enter &quot;city,two-letter state code,US&quot; eg
-        &quot;Oskaloosa,IA,US&quot;. For every other country, enter
-        &quot;city,two-letter country code&quot; eg. &quot;Lillehammer,NO&quot;.
+        Ask a weather-related question or enter a location. For example, "What is the weather in New York City?" or "Should I wear a coat in Oskaloosa, IA?".
       </p>
     </form>
   );
