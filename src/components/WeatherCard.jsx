@@ -18,23 +18,10 @@ const tempTranslator = (temp, unit) => {
 
 // Translate wind speed from meters per second to feet per second.
 const speedTranslator = (speed, units) => {
-  const allSpeeds = {
-    metric: {
-      value: speed,
-      unit: "m/s",
-    },
-    imperial: {
-      value: speed * 3.281,
-      unit: "ft/s",
-    },
-  };
-  if (units === "metric") {
-    return allSpeeds.metric;
-  } else if (units === "imperial") {
-    return allSpeeds.imperial;
-  } else {
-    return allSpeeds.metric;
+  if (units === "imperial") {
+    return speed * 3.281;
   }
+  return speed;
 };
 
 const WeatherCard = ({
