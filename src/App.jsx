@@ -48,8 +48,8 @@ function App() {
             isLoading={weatherDataLoading}
             data={weatherData}
             units={units}
-            country={locationData[0].country}
-            USstate={locationData[0].state}
+            country={promptData.country}
+            USstate={promptData.USstate}
             setUnits={setUnits}
           />
         ) : (
