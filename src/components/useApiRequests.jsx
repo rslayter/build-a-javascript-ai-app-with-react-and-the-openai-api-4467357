@@ -11,15 +11,14 @@ const useApiRequests = (prompt) => {
   const [locationData, setLocationData] = useState([]);
   const [weatherData, setWeatherData] = useState({});
   const [weatherDescription, setWeatherDescription] = useState(null);
+  const [weatherDescriptLoading, setWeatherDescriptLoading] = useState(false);
 
   // Fetch location and weather data from API.
   useEffect(() => {
+    if (!prompt) return;
+    setWeatherDescriptLoading(true);
     const fetchData = async () => {
-      if (!prompt) return; // return if prompt is null or undefined
-
       try {
-        //set prompt data from prompt data res that comes from await prompt to location call
-
         const promptDataRes = await PromptToLocation(prompt);
         setPromptData(promptDataRes);
 
@@ -34,14 +33,21 @@ const useApiRequests = (prompt) => {
         setWeatherDescription(descriptionRes);
       } catch (error) {
         setError(error);
+        setWeatherDescription(null);
         console.error("Error:", error);
       }
     };
-
     fetchData();
-  }, [prompt]); // run effect when `prompt` changes
+  }, [prompt]);
 
-  return { error, promptData, locationData, weatherData, weatherDescription };
+  // Set weatherDescriptLoading to false when weatherDescription or error changes
+  useEffect(() => {
+    if (weatherDescription !== null || error) {
+      setWeatherDescriptLoading(false);
+    }
+  }, [weatherDescription, error]);
+
+  return { error, promptData, locationData, weatherData, weatherDescription, weatherDescriptLoading };
 };
 
 useApiRequests.propTypes = {
