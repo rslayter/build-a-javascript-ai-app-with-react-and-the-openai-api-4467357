@@ -68,7 +68,33 @@ const PromptToLocation = (prompt) => {
   return fetch(url, params)
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
+      //parse response into json object
+      if (data.choices && data.choices.length > 0) {
+        const functionCall = data.choices[0].message.function_call;
+        if (functionCall && functionCall.name === "displayData") {
+          const args = JSON.parse(functionCall.arguments);
+          console.log("Function call arguments:", args);
+        
+          const locationString = () => {
+            if (args.USstate) {
+              return `${args.city}, ${args.USstate}, ${args.country}`;
+            }
+            return `${args.city}, ${args.country}`;
+          };
+          console.log("Location String:", locationString());
+          return {
+            country: args.country,
+            country_code: args.country_code,
+            USstate: args.USstate,
+            state: args.state,
+            city: args.city,
+            unit: args.unit,
+          };
+        } else {
+          throw new Error("Function call not found or invalid.");
+        }
+      }
+      throw new Error("No valid response from OpenAI API.");
     })
     .catch((error) => {
       console.log("Error:", error);
