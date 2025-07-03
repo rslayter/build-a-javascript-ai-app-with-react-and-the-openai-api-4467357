@@ -3,29 +3,18 @@ import "./WeatherCard.css";
 import Loader from "./Loader";
 
 // Translate temperature from Kelvin to Celsius or Fahrenheit.
+//temp is in Kelvin by default, unit is either metric or imperial.
+// returns the temp in the unit specified, or Kelvin if no unit is specified.
 const tempTranslator = (temp, unit) => {
-  const allTemps = {
-    k: {
-      value: temp,
-      unit: "°k",
-    },
-    c: {
-      value: temp - 273,
-      unit: "°C",
-    },
-    f: {
-      value: 1.8 * (temp - 273) + 32,
-      unit: "°F",
-    },
-  };
   if (unit === "metric") {
-    return allTemps.c;
+    return temp - 273.15;
   } else if (unit === "imperial") {
-    return allTemps.f;
+    return (temp - 273.15) * 1.8 + 32;
   } else {
-    return allTemps.k;
+    return temp;
   }
 };
+
 
 // Translate wind speed from meters per second to feet per second.
 const speedTranslator = (speed, units) => {
