@@ -73,7 +73,6 @@ const PromptToLocation = (prompt) => {
         const functionCall = data.choices[0].message.function_call;
         if (functionCall && functionCall.name === "displayData") {
           const args = JSON.parse(functionCall.arguments);
-          console.log("Function call arguments:", args);
         
           const locationString = () => {
             if (args.USstate) {
@@ -81,15 +80,17 @@ const PromptToLocation = (prompt) => {
             }
             return `${args.city}, ${args.country}`;
           };
-          console.log("Location String:", locationString());
-          return {
+
+          const promptData = {
+            locationString: locationString(),
             country: args.country,
             country_code: args.country_code,
-            USstate: args.USstate,
+            USstate: args.USstate || "",
             state: args.state,
             city: args.city,
             unit: args.unit,
           };
+          return promptData;
         } else {
           throw new Error("Function call not found or invalid.");
         }

@@ -22,7 +22,7 @@ const useApiRequests = (prompt) => {
         const promptDataRes = await PromptToLocation(prompt);
         setPromptData(promptDataRes);
 
-        const locationDataRes = await LocationToCoordinates(prompt);
+        const locationDataRes = await LocationToCoordinates(promptDataRes.locationString);
         setLocationData(locationDataRes);
 
         const weatherDataRes = await WeatherData(locationDataRes);
