@@ -5,7 +5,7 @@ const PromptToLocation = (prompt) => {
   const url = "https://api.openai.com/v1/chat/completions"; // open ai API endpoint
 
   const data = {
-    model: "gpt-3.5-turbo",
+    model: "gpt-4.1",
     messages: [
       {
         role: "system",
@@ -14,12 +14,12 @@ const PromptToLocation = (prompt) => {
       },
       {
         role: "user",
-        content: `Identify the location from this prompt: "${prompt}"`,
+        content: `${prompt}`,
       },
     ],
     functions: [{
       name: "displayData",
-      description: "Get the current weather data for the identified location",
+      description: "Get the current weather in a given location",
       parameters: {
         type: "object",
         properties: {
@@ -46,7 +46,7 @@ const PromptToLocation = (prompt) => {
           unit: {
             type: "string",
             enum: ["metric", "imperial"],
-            description: "The unit of measurement for the weather data (metric or imperial)",
+            description: "The unit of measurement for the weather data (metric or imperial) based on what the location typically uses",
           }
         },
         required: ["country", "country_code", "USstate", "state", "city", "unit"],
@@ -69,6 +69,7 @@ const PromptToLocation = (prompt) => {
     .then((response) => response.json())
     .then((data) => {
       //parse response into json object
+      console.log("Response from OpenAI API:", data);
       if (data.choices && data.choices.length > 0) {
         const functionCall = data.choices[0].message.function_call;
         if (functionCall && functionCall.name === "displayData") {

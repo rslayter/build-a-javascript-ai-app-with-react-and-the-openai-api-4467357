@@ -28,6 +28,13 @@ function App() {
     }
   }, [weatherData]);
 
+  // Set units to promptData.unit if promptData is available.
+  useEffect(() => {
+    if (promptData && promptData.unit) {
+      setUnits(promptData.unit);
+    }
+  }, [promptData]);
+
   // Handle form submission. Set prompt to user input.
   const handleSubmit = (newPrompt) => {
     setErrorMsg("");
